@@ -1,6 +1,6 @@
 ﻿# Amazing BeerApp for displaying beers made by BrewDog brewery
 ## Prerequisites
-.net 6.0 SDK installed
+.net 8.0 SDK installed
 ___
 ## Assumptions and shortcuts
 `https://api.punkapi.com/` is always available
