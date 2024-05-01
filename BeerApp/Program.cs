@@ -14,6 +14,7 @@ var serviceProvider = BuildServiceProvider(configuration);
 var app = serviceProvider.GetRequiredService<BeerSearchApplication>();
 
 await app.RunAsync(args);
+return;
 
 static IConfigurationRoot BuildConfiguration()
 {
@@ -32,7 +33,7 @@ static ServiceProvider BuildServiceProvider(IConfigurationRoot configuration)
     return serviceProvider;
 }
 
-static void ConfigureServices(IConfigurationRoot configuration, IServiceCollection services)
+static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
 {
     services.AddSingleton<BeerSearchApplication>();
     services.AddSingleton<IConsoleWriter, ConsoleWriter>();
@@ -42,7 +43,8 @@ static void ConfigureServices(IConfigurationRoot configuration, IServiceCollecti
     services.AddRefitClient<IPunkIpaApi>()
         .ConfigureHttpClient(httpClient =>
         {
-            httpClient.BaseAddress = new Uri(configuration["BeerApi:BaseAddress"]);
+            var baseAddress = configuration.GetSection(BeerApiConfiguration.BeerApiKey).Value;
+            httpClient.BaseAddress = new Uri(baseAddress);
         })
         .AddTransientHttpErrorPolicy(builder =>
         {
